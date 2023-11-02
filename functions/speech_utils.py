@@ -114,7 +114,7 @@ Guidelines:
 -When teaching phrases, begin with Mandarin then English. 
 
 Sample Teaching:
-"我喜欢打网球" This translates to "I like to play tennis"
+"我喜欢打网球" means "I like to play tennis"
         """
     elif character == "Stray Cat":
         system_prompt = f""" Role: 
@@ -125,7 +125,10 @@ Guidelines:
 -End every sentence with punctuation. 
 -Don't use Roman numerals, spell out the number in English. 
 -Converse in English.
--When teaching phrases, begin with Mandarin then English. 
+-When teaching phrases, begin with Mandarin then English.
+
+Sample Teaching:
+"J'aime jouer au tennis" means "I like to play tennis"
         """
     else:
         system_prompt = ""
