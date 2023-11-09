@@ -46,6 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
   late SpeechToText speechToText; 
   late StreamingRecognitionConfig streamingConfig;
 
+  Uint8List? lastAudioData;
+
+
   @override
   void initState() {
     super.initState();
@@ -212,6 +215,9 @@ Future<void> _postSoundRecording(String filePath, String character) async {
         var responseBodyJson = jsonDecode(response.body);
         // Decode the base64 encoded audio data
         var audioData = base64Decode(responseBodyJson['audio_data']);
+
+        lastAudioData = audioData;
+
         // Play the audio
         setState(() {
           _talkingState = "talking";
@@ -232,6 +238,14 @@ Future<void> _postSoundRecording(String filePath, String character) async {
     }
 }
 
+void _playLastAudio() {
+  if (lastAudioData != null) {
+    _playAudio(lastAudioData!);
+  } else {
+    // Handle the case where there is no last audio data, for example:
+    print("No audio to play");
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -320,32 +334,45 @@ Future<void> _postSoundRecording(String filePath, String character) async {
                           ),
                         ),
                         SizedBox(height: 10), // Space between buttons
-                        ElevatedButton(
-                          onPressed: () {_startStopRecording(characterProvider.currentCharacter!['name']);},
-                          style: ElevatedButton.styleFrom(
-                            primary: _isRecording ? Colors.red : Colors.grey, // Change color based on recording state
-                            onPrimary: Colors.white,
-                            shape: CircleBorder(),  // Make it round
-                            padding: EdgeInsets.all(35),  // Adjust this value for desired size
-                            shadowColor: _isRecording ? Colors.red[700] : Colors.grey[700],
-                            elevation: 5.0, // Add some shadow for depth
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.mic, size: 25.0),  // Reduced size of the Microphone icon
-                              SizedBox(height: 4.0),  // Reduced spacing between icon and text
-                              Text(
-                                _isRecording ? 'Stop' : 'Talk',
-                                style: TextStyle(
-                                  fontFamily: 'CuteFont',
-                                  fontSize: 18,  // Reduced font size
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Repeat Button
+                            ElevatedButton(
+                              onPressed: lastAudioData != null ? () => _playAudio(lastAudioData!) : null,
+                              style: ElevatedButton.styleFrom(
+                                primary: lastAudioData != null ? Colors.blue : Colors.grey, // Enable or disable based on audio availability
+                                onPrimary: Colors.white,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(20), // Adjust padding to match the record button size
+                                elevation: 5.0,
                               ),
-                            ],
-                          ),
-                        )
+                              child: Icon(Icons.replay, size: 25.0),
+                            ),
+                            SizedBox(width: 20), // Space between Repeat and Record buttons
+                            // Record Button
+                            ElevatedButton(
+                              onPressed: () => _startStopRecording(characterProvider.currentCharacter!['name']),
+                              style: ElevatedButton.styleFrom(
+                                primary: _isRecording ? Colors.red : Colors.grey,
+                                onPrimary: Colors.white,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(35),
+                                elevation: 5.0,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.mic, size: 25.0),
+                                  Text(
+                                    _isRecording ? 'Stop' : 'Talk',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         ]
                       )
                     )
