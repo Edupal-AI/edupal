@@ -53,7 +53,7 @@ if(Firebase.apps.isEmpty){
     FirebaseUIAuth.configureProviders([
     firebase_ui_auth.EmailAuthProvider(),
     // PhoneAuthProvider(),
-    GoogleProvider(clientId: "INPUT_YOUR_OWN clientId (find in GoogleService-Info.plist)"),
+    GoogleProvider(clientId: "250716110475-ovgmogq86qjtu7jpli2k36oeji7cnq9v.apps.googleusercontent.com"),
     AppleProvider(),
       // ... other providers
     ]);

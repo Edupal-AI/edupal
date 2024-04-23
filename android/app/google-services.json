@@ -1,26 +1,43 @@
 {
   "project_info": {
-    "project_number": "284015598991",
-    "project_id": "edupal-76a71",
-    "storage_bucket": "edupal-76a71.appspot.com"
+    "project_number": "250716110475",
+    "project_id": "edupal-8e17e",
+    "storage_bucket": "edupal-8e17e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:284015598991:android:5424d3b372204b0a54bffa",
+        "mobilesdk_app_id": "1:250716110475:android:4d33e1aaba16794fb29e8e",
         "android_client_info": {
           "package_name": "com.blockart.dreamore_flutter"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "250716110475-cumj3r2ialkra27obalckcahrdsf5qjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyC3xMJ1aujN0ZcnF6Stakvx5boBUUCCcWE"
+          "current_key": "AIzaSyA9GYoUaLzAU_-gJySH126Fa8IWB_nLIGs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250716110475-cumj3r2ialkra27obalckcahrdsf5qjq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "250716110475-ovgmogq86qjtu7jpli2k36oeji7cnq9v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.selena.edupal"
+              }
+            }
+          ]
         }
       }
     }

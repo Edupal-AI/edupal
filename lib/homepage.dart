@@ -113,42 +113,41 @@ void onError(Object e) {
 Future<String> _prepareSavePath() async {
   final Directory tempDir = await getTemporaryDirectory();
   // Specify the file name, you may want to include timestamp or other identifiers in the file name
-  final String filePath = '${tempDir.path}/flutter_sound_${DateTime.now().millisecondsSinceEpoch}.m4a';
+  final String filePath = '${tempDir.path}/flutter_sound_${DateTime.now().day}_${DateTime.now().hour}_${DateTime.now().minute}_${DateTime.now().second}.m4a';
   return filePath;
 }
   void _startStopRecording(String character) async {
-    // print(_recorder.recorderState);
     bool isRecording = await record.isRecording();
-    print(isRecording);
+    print("Recording State: $isRecording");
 
     if (isRecording) {
-      await record.stop();
-      _postSoundRecording(_curFilePath, character);
-      setState(() {
-        _isRecording = false;
-      });
+        await record.stop();
+        print("Recording stopped, file saved at: $_curFilePath");
+        _postSoundRecording(_curFilePath, character);
+        setState(() {
+            _isRecording = false;
+        });
     } else {
-      // print("going to start recording");
-      _curFilePath = await _prepareSavePath();
-      // Create file
-      setState(() {
-        _isRecording = true;
-      });
-      if (await record.hasPermission()) {
-        // Start recording
-        print("going to start recording...");
-        await record.start(
-          path: _curFilePath,
-          encoder: AudioEncoder.pcm16bit, // by default
-          numChannels: 1,
-          samplingRate: 44100, // by default
-        );
-      }
+        _curFilePath = await _prepareSavePath();
+        print("New recording file path: $_curFilePath");
+
+        setState(() {
+            _isRecording = true;
+        });
+
+        if (await record.hasPermission()) {
+            print("Permission granted, starting recording...");
+            await record.start(path: _curFilePath,);
+        } else {
+            print("Recording permission not granted");
+        }
     }
-  }
+}
+
 
   void _getMicrophonePermission() async {
     if (await Permission.microphone.isDenied) {
+      print("_getMicrophonePermission: denied");
       Permission.microphone.request();
     }
   }
